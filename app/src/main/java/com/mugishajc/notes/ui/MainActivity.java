@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.Liste
         binding.notesList.setLayoutManager(new LinearLayoutManager(this));
         binding.notesList.setAdapter(adapter);
 
+        binding.newNoteButton.setOnClickListener(v ->
+                startActivity(EditNoteActivity.newNote(this, viewModel.getSelectedCategory().getValue())));
+
         viewModel.getNotes().observe(this, notes -> {
             adapter.submitList(notes);
             binding.emptyView.setVisibility(notes.isEmpty() ? View.VISIBLE : View.GONE);
@@ -40,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.Liste
 
     @Override
     public void onNoteClicked(Note note) {
-        // Editor comes next.
+        startActivity(EditNoteActivity.editNote(this, note.getId()));
     }
 
     @Override
