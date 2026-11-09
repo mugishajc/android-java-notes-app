@@ -8,10 +8,14 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
+import com.google.android.material.snackbar.Snackbar;
 import com.mugishajc.notes.NotesApp;
 import com.mugishajc.notes.R;
 import com.mugishajc.notes.data.Category;
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.Liste
         binding.notesList.setLayoutManager(new LinearLayoutManager(this));
         binding.notesList.setAdapter(adapter);
 
+        attachSwipeToDelete();
         buildFilterChips();
 
         binding.newNoteButton.setOnClickListener(v ->
@@ -55,6 +60,32 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.Liste
             binding.emptyView.setVisibility(notes.isEmpty() ? View.VISIBLE : View.GONE);
             binding.emptyView.setText(viewModel.isFiltering() ? R.string.empty_filtered : R.string.empty_notes);
         });
+    }
+
+    private void attachSwipeToDelete() {
+        ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(
+                0, ItemTouchHelper.START | ItemTouchHelper.END) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView,
+                                  @NonNull RecyclerView.ViewHolder viewHolder,
+                                  @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getBindingAdapterPosition();
+                if (position == RecyclerView.NO_POSITION) {
+                    return;
+                }
+                viewModel.delete(adapter.noteAt(position));
+                Snackbar.make(binding.root, R.string.note_deleted, Snackbar.LENGTH_LONG)
+                        .setAnchorView(binding.newNoteButton)
+                        .setAction(R.string.undo, v -> viewModel.undoDelete())
+                        .show();
+            }
+        };
+        new ItemTouchHelper(callback).attachToRecyclerView(binding.notesList);
     }
 
     private void buildFilterChips() {
