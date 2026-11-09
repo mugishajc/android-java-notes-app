@@ -24,5 +24,8 @@ public interface NoteRepository {
 
     void delete(Note note);
 
+    /** Puts a previously deleted note back with its original id (used by undo). */
+    void restore(Note note);
+
     void setPinned(long id, boolean pinned);
 }

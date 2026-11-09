@@ -64,6 +64,12 @@ public class RoomNoteRepository implements NoteRepository {
     }
 
     @Override
+    public void restore(Note note) {
+        Note toRestore = note.copy();
+        io.execute(() -> dao.insert(toRestore));
+    }
+
+    @Override
     public void setPinned(long id, boolean pinned) {
         io.execute(() -> dao.setPinned(id, pinned));
     }
