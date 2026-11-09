@@ -15,9 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.mugishajc.notes.NotesApp;
 import com.mugishajc.notes.R;
+import com.mugishajc.notes.ThemePrefs;
 import com.mugishajc.notes.data.Category;
 import com.mugishajc.notes.data.Note;
 import com.mugishajc.notes.databinding.ActivityMainBinding;
@@ -150,6 +152,31 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.Liste
             });
         }
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_theme) {
+            showThemeDialog();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showThemeDialog() {
+        String[] options = {
+                getString(R.string.theme_system),
+                getString(R.string.theme_light),
+                getString(R.string.theme_dark)
+        };
+        // Option order matches the ThemePrefs constants.
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.theme)
+                .setSingleChoiceItems(options, ThemePrefs.get(this), (dialog, which) -> {
+                    dialog.dismiss();
+                    ThemePrefs.set(this, which);
+                })
+                .show();
     }
 
     @Override

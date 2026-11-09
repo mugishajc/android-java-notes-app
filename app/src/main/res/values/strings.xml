@@ -10,6 +10,10 @@
     <string name="search">Search</string>
     <string name="search_hint">Search notes</string>
     <string name="category_all">All</string>
+    <string name="theme">Theme</string>
+    <string name="theme_system">System default</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
     <string name="edit_note">Edit note</string>
     <string name="back">Back</string>
     <string name="delete">Delete</string>

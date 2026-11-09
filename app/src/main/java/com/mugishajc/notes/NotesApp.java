@@ -14,6 +14,7 @@ public class NotesApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ThemePrefs.apply(ThemePrefs.get(this));
         repository = new RoomNoteRepository(NoteDatabase.get(this).noteDao());
     }
 

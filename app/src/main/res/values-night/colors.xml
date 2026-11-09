@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Lighter tint of the seed so it keeps contrast on dark surfaces. -->
+    <color name="seed">#AEC6FF</color>
+</resources>
