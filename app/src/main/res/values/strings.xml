@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Notes</string>
+
+    <string name="empty_notes">No notes yet.\nTap + to write your first one.</string>
+    <string name="empty_filtered">Nothing matches your search.</string>
+    <string name="pin">Pin</string>
+    <string name="unpin">Unpin</string>
+    <string name="pinned">Pinned</string>
+
+    <string name="category_personal">Personal</string>
+    <string name="category_work">Work</string>
+    <string name="category_ideas">Ideas</string>
+    <string name="category_todo">To-do</string>
+    <string name="category_other">Other</string>
 </resources>
